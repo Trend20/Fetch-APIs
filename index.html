@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch APIs</title>
+</head>
+
+<body>
+    <button id="get-text">Get Text</button>
+    <button id="get-users">Get Users</button>
+    <button id="get-posts">Get Posts</button>
+    <button id="get-data">Get Data</button>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('get-text').addEventListener('click', getText);
+
+        function getText() {
+            fetch('sample.txt')
+                .then((res) => res.text())
+                .then((data) => {
+                    document.getElementById('output').innerHTML = data;
+                })
+        }
+
+        document.getElementById('get-users').addEventListener('click', getUsers);
+        // users
+        function getUsers() {
+            fetch('users.json')
+                .then((res) => res.json())
+                .then((data) => {
+                    let output = '<h2>Users</h2>'
+                    data.forEach((user) => {
+                        output += `
+                         <ul>
+                            <li>ID: ${user.id}</li>
+                            <li>NAME: ${user.name}</li>
+                            <li>AGE: ${user.age}</li>
+                            </ul>
+                        `;
+                    });
+                    document.getElementById('output').innerHTML = output;
+                })
+        }
+
+        // post
+
+
+        document.getElementById('get-posts').addEventListener('click', getPosts);
+
+        function getPosts() {
+            fetch('https://jsonplaceholder.typicode.com/posts')
+                .then((res) => res.json())
+                .then((data) => {
+                    let output = '<h2>Posts</h2>'
+                    data.forEach((post) => {
+                        output += `
+                         <div>
+                            <h2>${post.title}</h2>
+                            <p>${post.body}</p>
+                            </div>
+                        `;
+                    });
+                    document.getElementById('output').innerHTML = output;
+                })
+        }
+
+        // github
+        document.getElementById('get-data').addEventListener('click', getData);
+
+        function getData() {
+            fetch('https://api.github.com/events')
+                .then((res) => res.json())
+                .then((data) => {
+                    let output = '<h2>Repos</h2>'
+                    data.forEach((repo) => {
+                        output += `
+                 <div>
+                    <h2>${repo.type}</h2>
+                    <p>${repo.actor.login}</p>
+                    </div>
+                `;
+                    });
+                    document.getElementById('output').innerHTML = output;
+                })
+        }
+    </script>
+</body>
+
+</html>
